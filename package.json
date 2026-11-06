@@ -1,0 +1,19 @@
+{
+  "name": "rs-bulls-and-cows",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Romkalis/rs-bulls-and-cows.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Romkalis/rs-bulls-and-cows/issues"
+  },
+  "homepage": "https://github.com/Romkalis/rs-bulls-and-cows#readme"
+}
