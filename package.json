@@ -4,16 +4,41 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "test": "vitest run --passWithNoTests",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Romkalis/rs-bulls-and-cows.git"
   },
-  "author": "",
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,html,css}": "prettier --write"
+  },
+  "author": "Roman Bondarchuk",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Romkalis/rs-bulls-and-cows/issues"
   },
-  "homepage": "https://github.com/Romkalis/rs-bulls-and-cows#readme"
+  "homepage": "https://github.com/Romkalis/rs-bulls-and-cows#readme",
+  "devDependencies": {
+    "@eslint/css": "^2.0.1",
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.14.0",
+    "globals": "^17.14.0",
+    "prettier": "3.9.10",
+    "typescript": "^6",
+    "typescript-eslint": "^8.72.1"
+  },
+  "dependencies": {
+    "eslint-config-prettier": "^10.1.8",
+    "jiti": "^2.7.0"
+  }
 }
