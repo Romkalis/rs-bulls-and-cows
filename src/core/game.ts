@@ -12,3 +12,13 @@ export function createDigitValidator(base: Base): (digit: string) => boolean {
     return availableValues.includes(digit.toLowerCase());
   };
 }
+
+export function isValidGuess(
+  input: string,
+  length: number,
+  base: Base,
+): boolean {
+  // надо описать  и проверить - длинну введенную юзером, валидность символов для системы счисления, и непвоторяемость символов
+  console.log(input, length, base);
+  return false;
+}

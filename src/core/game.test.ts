@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createDigitValidator } from './game.js';
+import { createDigitValidator, isValidGuess } from './game.js';
 
 describe('createDigitValidator', () => {
   describe('base 10', () => {
@@ -79,5 +79,31 @@ describe('createDigitValidator', () => {
       expect(validator(' ')).toBe(false);
       expect(validator('-')).toBe(false);
     });
+  });
+});
+
+describe('isValidGuess', () => {
+  // надо описать  и проверить - длинну введенную юзером, валидность символов для системы счисления, и непвоторяемость символов
+
+  it('inputed symbols are uniq', () => {
+    expect(isValidGuess('0123', 4, 10)).toBe(true);
+    expect(isValidGuess('0113', 4, 10)).toBe(false);
+    expect(isValidGuess('aA019', 5, 16)).toBe(false);
+    expect(isValidGuess('Ab', 2, 16)).toBe(true);
+  });
+  it('inputed values not shorter or longer', () => {
+    expect(isValidGuess('0123', 4, 10)).toBe(true);
+    expect(isValidGuess('012345', 4, 10)).toBe(false);
+    expect(isValidGuess('0', 4, 10)).toBe(false);
+    expect(isValidGuess('', 4, 10)).toBe(false);
+  });
+  it('inputed values are valid', () => {
+    expect(isValidGuess('23456', 5, 10)).toBe(true);
+    expect(isValidGuess('23456', 5, 8)).toBe(true);
+    expect(isValidGuess('235aF', 5, 16)).toBe(true);
+    expect(isValidGuess('01', 2, 2)).toBe(true);
+    expect(isValidGuess('03', 2, 2)).toBe(false);
+    expect(isValidGuess('01af2', 5, 10)).toBe(false);
+    expect(isValidGuess('01af9', 5, 8)).toBe(false);
   });
 });
