@@ -14,12 +14,13 @@
     "outDir": "dist",
 
     "strict": true,
-    "jsx": "react-jsx",
     "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "noImplicitAny": true,
     "moduleDetection": "force",
     "skipLibCheck": true
-  }
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts"]
 }
