@@ -1,7 +1,7 @@
 {
   "name": "rs-bulls-and-cows",
   "version": "1.0.0",
-  "description": "",
+  "description": "Учебный проект для задания [Rolling Scopes School — Bulls and Cows](https://github.com/rolling-scopes-school/tasks/blob/master/fullstack-engineering/tasks/bulls-and-cows/README.md).",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -32,13 +32,20 @@
     "@eslint/css": "^2.0.1",
     "@eslint/js": "^10.0.1",
     "eslint": "^10.14.0",
+    "eslint-config-prettier": "^10.1.8",
     "globals": "^17.14.0",
-    "prettier": "3.9.10",
-    "typescript": "^6",
-    "typescript-eslint": "^8.72.1"
+    "husky": "^9.1.7",
+    "lint-staged": "^17.6.0",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^5.1.0"
   },
   "dependencies": {
-    "eslint-config-prettier": "^10.1.8",
     "jiti": "^2.7.0"
-  }
+  },
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": []
 }
