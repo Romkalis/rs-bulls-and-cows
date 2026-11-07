@@ -18,7 +18,13 @@ export function isValidGuess(
   length: number,
   base: Base,
 ): boolean {
-  // надо описать  и проверить - длинну введенную юзером, валидность символов для системы счисления, и непвоторяемость символов
-  console.log(input, length, base);
-  return false;
+  const lowerInput = input.toLowerCase();
+  const isUniq = new Set(lowerInput.split('')).size === input.length;
+  const validator = createDigitValidator(base);
+  const isValid: boolean = lowerInput
+    .split('')
+    .every((char) => validator(char));
+  if (!isUniq || input.length !== length || !isValid) return false;
+
+  return true;
 }
