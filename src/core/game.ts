@@ -1,4 +1,4 @@
-import type { Base } from '../types/core.type.js';
+import type { Base, Score } from '../types/core.type.js';
 
 const DIGITS = '0123456789abcdef';
 
@@ -27,4 +27,9 @@ export function isValidGuess(
   if (!isUniq || input.length !== length || !isValid) return false;
 
   return true;
+}
+
+export function checkGuess(answer: string, secret: string): Score {
+  console.log(answer, secret);
+  throw new Error('Function was not implement yet');
 }

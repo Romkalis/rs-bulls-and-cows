@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createDigitValidator, isValidGuess } from './game.js';
+import { createDigitValidator, isValidGuess, evaluateGuess } from './game.js';
 
 describe('createDigitValidator', () => {
   describe('base 10', () => {
@@ -83,8 +83,6 @@ describe('createDigitValidator', () => {
 });
 
 describe('isValidGuess', () => {
-  // надо описать  и проверить - длинну введенную юзером, валидность символов для системы счисления, и непвоторяемость символов
-
   it('inputed symbols are uniq', () => {
     expect(isValidGuess('0123', 4, 10)).toBe(true);
     expect(isValidGuess('0113', 4, 10)).toBe(false);
@@ -104,6 +102,27 @@ describe('isValidGuess', () => {
     expect(isValidGuess('01', 2, 2)).toBe(true);
     expect(isValidGuess('03', 2, 2)).toBe(false);
     expect(isValidGuess('01af2', 5, 10)).toBe(false);
-    expect(isValidGuess('01af9', 5, 8)).toBe(false);
+    expect(isValidGuess('01459', 5, 8)).toBe(false);
+  });
+});
+
+describe('evaluateGuess', () => {
+  it('counts cows and bulls', () => {
+    expect(evaluateGuess('1234', '1243')).toEqual({ bulls: 2, cows: 2 });
+  });
+  it('counts cows and bulls in mixed case', () => {
+    expect(evaluateGuess('1234', '1543')).toEqual({ bulls: 1, cows: 2 });
+  });
+  it('return zero counts if havent any cows and bulls', () => {
+    expect(evaluateGuess('1234', '5678')).toEqual({ bulls: 0, cows: 0 });
+  });
+  it('returns only cows', () => {
+    expect(evaluateGuess('12ab', 'ba21')).toEqual({ bulls: 0, cows: 4 });
+  });
+  it('returns only bulls', () => {
+    expect(evaluateGuess('1234', '1234')).toEqual({ bulls: 4, cows: 0 });
+  });
+  it('should operating with any register', () => {
+    expect(evaluateGuess('abcd', 'ABDC')).toEqual({ bulls: 2, cows: 2 });
   });
 });
