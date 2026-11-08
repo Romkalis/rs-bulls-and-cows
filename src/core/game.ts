@@ -1,4 +1,5 @@
 import type { Base, Score } from '../types/core.type.js';
+import { memoize } from '../utils/memoize.js';
 import { normalize } from '../utils/normalize.js';
 
 const DIGITS = '0123456789abcdef';
@@ -66,8 +67,9 @@ export function generateSecret(
   return addDigit('');
 }
 
-export function countPossibleSecrets(length: number, base: number): number {
-  void length;
-  void base;
-  throw new Error('Not implemented');
-}
+export const countPossibleSecrets = memoize(
+  (length: number, base: number): number => {
+    if (length === 0) return 1;
+    return base * countPossibleSecrets(length - 1, base - 1);
+  },
+);
