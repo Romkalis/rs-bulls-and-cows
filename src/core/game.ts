@@ -30,7 +30,7 @@ export function isValidGuess(
   return true;
 }
 
-export const evaluateGuess = (secret: string, guess: string): Score => {
+export function evaluateGuess(secret: string, guess: string): Score {
   const secretChars = normalize(secret);
   const guessChars = normalize(guess);
   const secretDigits = new Set(secretChars);
@@ -39,4 +39,4 @@ export const evaluateGuess = (secret: string, guess: string): Score => {
   const common = guessChars.filter((ch) => secretDigits.has(ch)).length;
 
   return { bulls, cows: common - bulls };
-};
+}
