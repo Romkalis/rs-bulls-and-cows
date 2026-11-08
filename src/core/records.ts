@@ -1,16 +1,14 @@
 import type { GameRecord } from '../types/core.type.js';
 
+const MAX_RECORDS = 10;
+
 export function compareRecords(a: GameRecord, b: GameRecord): number {
-  void a;
-  void b;
-  throw new Error('Not implemented');
+  return a.attempts - b.attempts || a.time - b.time;
 }
 
 export function addRecord(
   records: readonly GameRecord[],
   record: GameRecord,
 ): GameRecord[] {
-  void records;
-  void record;
-  throw new Error('Not implemented');
+  return [...records, record].sort(compareRecords).slice(0, MAX_RECORDS);
 }
