@@ -46,8 +46,22 @@ export function generateSecret(
   base: Base,
   random: () => number = Math.random,
 ): string {
-  void length;
-  void base;
-  void random;
-  throw new Error('Not implemented');
+  if (length > base) {
+    throw new RangeError(
+      `Cannot build ${length} unique digits in base ${base}`,
+    );
+  }
+
+  const digits = DIGITS.slice(0, base).split('');
+
+  const addDigit = (secret: string): string => {
+    if (secret.length === length) return secret;
+
+    const unused = digits.filter((digit) => !secret.includes(digit));
+    const index = Math.floor(random() * unused.length);
+
+    return addDigit(secret + (unused[index] ?? ''));
+  };
+
+  return addDigit('');
 }
