@@ -4,6 +4,7 @@ import {
   isValidGuess,
   evaluateGuess,
   generateSecret,
+  countPossibleSecrets,
 } from './game.js';
 
 describe('createDigitValidator', () => {
@@ -132,7 +133,7 @@ describe('evaluateGuess', () => {
   });
 });
 
-// Детерминированный источник случайности: по кругу отдаёт заданные значения.
+// Детерминированный сгенереный источник случайности: по кругу отдаёт заданные значения.
 function sequence(values: number[]): () => number {
   let index = 0;
   return () => values[index++ % values.length] ?? 0;
@@ -148,7 +149,6 @@ describe('generateSecret', () => {
   });
 
   it('removes picked digits from the pool', () => {
-    // 0.5 -> index 5 of 0..9 = '5'; 0 -> '0'; 0.99 -> last of the rest = '9'
     expect(generateSecret(3, 10, sequence([0.5, 0, 0.99]))).toBe('509');
   });
 
@@ -176,5 +176,26 @@ describe('generateSecret', () => {
 
   it('throws when length is greater than base', () => {
     expect(() => generateSecret(3, 2, () => 0)).toThrow(RangeError);
+  });
+});
+
+describe('countPossibleSecrets', () => {
+  it('counts secrets without repeated digits', () => {
+    expect(countPossibleSecrets(2, 2)).toBe(2); // 2 * 1
+    expect(countPossibleSecrets(4, 10)).toBe(5040); // 10 * 9 * 8 * 7
+    expect(countPossibleSecrets(6, 16)).toBe(5765760); // 16 * 15 * 14 * 13 * 12 * 11
+  });
+
+  it('returns 1 for zero length', () => {
+    expect(countPossibleSecrets(0, 10)).toBe(1);
+  });
+
+  it('returns 0 when there are not enough digits', () => {
+    expect(countPossibleSecrets(3, 2)).toBe(0); // 2 * 1 * 0
+  });
+
+  it('returns the same value on repeated calls', () => {
+    expect(countPossibleSecrets(5, 10)).toBe(30240);
+    expect(countPossibleSecrets(5, 10)).toBe(30240);
   });
 });
