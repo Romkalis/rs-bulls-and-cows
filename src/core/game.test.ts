@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { createDigitValidator, isValidGuess, evaluateGuess } from './game.js';
+import {
+  createDigitValidator,
+  isValidGuess,
+  evaluateGuess,
+  generateSecret,
+} from './game.js';
 
 describe('createDigitValidator', () => {
   describe('base 10', () => {
@@ -124,5 +129,52 @@ describe('evaluateGuess', () => {
   });
   it('should operating with any register', () => {
     expect(evaluateGuess('abcd', 'ABDC')).toEqual({ bulls: 2, cows: 2 });
+  });
+});
+
+// Детерминированный источник случайности: по кругу отдаёт заданные значения.
+function sequence(values: number[]): () => number {
+  let index = 0;
+  return () => values[index++ % values.length] ?? 0;
+}
+
+describe('generateSecret', () => {
+  it('picks the first available digit each time when random returns 0', () => {
+    expect(generateSecret(4, 10, () => 0)).toBe('0123');
+  });
+
+  it('picks the last available digit each time when random is close to 1', () => {
+    expect(generateSecret(4, 10, () => 0.999)).toBe('9876');
+  });
+
+  it('removes picked digits from the pool', () => {
+    // 0.5 -> index 5 of 0..9 = '5'; 0 -> '0'; 0.99 -> last of the rest = '9'
+    expect(generateSecret(3, 10, sequence([0.5, 0, 0.99]))).toBe('509');
+  });
+
+  it('uses lowercase hex letters', () => {
+    expect(generateSecret(2, 16, () => 0.999)).toBe('fe');
+  });
+
+  it('builds a two-digit binary secret', () => {
+    expect(generateSecret(2, 2, () => 0)).toBe('01');
+    expect(generateSecret(2, 2, () => 0.999)).toBe('10');
+  });
+
+  it.each([
+    [2, 2],
+    [4, 8],
+    [6, 10],
+    [6, 16],
+  ] as const)(
+    'returns a valid secret of length %i in base %i',
+    (length, base) => {
+      const secret = generateSecret(length, base, sequence([0.3, 0.7, 0.1]));
+      expect(isValidGuess(secret, length, base)).toBe(true);
+    },
+  );
+
+  it('throws when length is greater than base', () => {
+    expect(() => generateSecret(3, 2, () => 0)).toThrow(RangeError);
   });
 });

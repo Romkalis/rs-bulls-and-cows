@@ -40,3 +40,14 @@ export function evaluateGuess(secret: string, guess: string): Score {
 
   return { bulls, cows: common - bulls };
 }
+
+export function generateSecret(
+  length: number,
+  base: Base,
+  random: () => number = Math.random,
+): string {
+  void length;
+  void base;
+  void random;
+  throw new Error('Not implemented');
+}
