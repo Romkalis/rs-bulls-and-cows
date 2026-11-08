@@ -1,4 +1,5 @@
 import type { Base, Score } from '../types/core.type.js';
+import { normalize } from '../utils/normalize.js';
 
 const DIGITS = '0123456789abcdef';
 
@@ -29,7 +30,13 @@ export function isValidGuess(
   return true;
 }
 
-export function checkGuess(answer: string, secret: string): Score {
-  console.log(answer, secret);
-  throw new Error('Function was not implement yet');
-}
+export const evaluateGuess = (secret: string, guess: string): Score => {
+  const secretChars = normalize(secret);
+  const guessChars = normalize(guess);
+  const secretDigits = new Set(secretChars);
+
+  const bulls = guessChars.filter((ch, i) => ch === secretChars[i]).length;
+  const common = guessChars.filter((ch) => secretDigits.has(ch)).length;
+
+  return { bulls, cows: common - bulls };
+};
